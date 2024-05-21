@@ -21,5 +21,7 @@ public:
 		string new_nume, string new_culoare, int new_meows);
 
 	int find_pisica(string nume, string culoare);
+
+	vector<Pisica> sort_by_meows();
 };
 

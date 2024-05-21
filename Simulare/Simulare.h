@@ -17,13 +17,16 @@ private:
 	QLineEdit* culoare_line = new QLineEdit{};
 	QLineEdit* meows_line = new QLineEdit{};
 
-	QPushButton* addBtn = new QPushButton{};
-	QPushButton* delBtn = new QPushButton{};
-	QPushButton* modifyBtn = new QPushButton{};
+	QPushButton* addBtn = new QPushButton{"&Add"};
+	QPushButton* delBtn = new QPushButton{"&Del"};
+	QPushButton* modifyBtn = new QPushButton{"&Modify"};
+	QPushButton* sortBtn = new QPushButton{ "&Sort" };
+	QPushButton* resetBtn = new QPushButton{ "&Reset" };
 
 	void initGUI();
 	void addCats();
 	void initConnect();
+	void resetCats();
 
 public:
 

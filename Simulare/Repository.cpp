@@ -44,12 +44,13 @@ void PisicaRepo::add_pisica(Pisica pisica) {
 void PisicaRepo::delete_pisica(Pisica pisica) {
 	int pozitie = 0;
 	for (auto& it : pisici) {
-		pozitie++;
+	
 		if (pisica.getCuloare() == it.getCuloare() &&
 			pisica.getNume() == it.getNume()) {
 			break;
 			
 		}
+		pozitie++;
 	}
 
 	this->pisici.erase(pisici.begin() + pozitie);

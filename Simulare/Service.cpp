@@ -1,5 +1,5 @@
 #include "Service.h"
-
+#include <algorithm>
 const vector<Pisica> PisicaService::get_all_pisici() {
 	return repo.get_all_pisici();
 }
@@ -29,5 +29,20 @@ int PisicaService::find_pisica(string nume, string culoare) {
 			return position;
 		position++;
 	}
-	return -1;
+	return 0;
+}
+
+bool crit(Pisica a, Pisica b) {
+	return a.getMeows() < b.getMeows();
+}
+
+
+
+vector<Pisica> PisicaService::sort_by_meows() {
+	vector<Pisica> pisici = get_all_pisici();
+
+	sort(pisici.begin(), pisici.end(), crit);
+
+	return pisici;
+
 }

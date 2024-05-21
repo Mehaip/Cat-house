@@ -19,14 +19,31 @@ void PisicaGUI::initGUI() {
 	side_layout->addRow("Culoare",culoare_line);
 	side_layout->addRow("meows",meows_line);
 
-	main_layout->addLayout(side_layout);
+
+
+	auto btnLayout = new QHBoxLayout{};
+
+	btnLayout->addWidget(addBtn);
+	btnLayout->addWidget(delBtn);
+	btnLayout->addWidget(modifyBtn);
+	btnLayout->addWidget(sortBtn);
+	btnLayout->addWidget(resetBtn);
+	
+	auto dreapta_layout = new QVBoxLayout{};
+
+	dreapta_layout->addLayout(side_layout);
+	dreapta_layout->addLayout(btnLayout);
+	
+
+	main_layout->addLayout(dreapta_layout);
 
 
 }
 
-void PisicaGUI::addCats() {
-	vector<Pisica> pisici = service.get_all_pisici();
 
+void PisicaGUI::addCats() {
+	cat_list->clear();
+	vector<Pisica> pisici = service.get_all_pisici();
 	for (auto& it : pisici) {
 		string nume = it.getNume();
 		string pisica = it.getCuloare();
@@ -55,4 +72,55 @@ void PisicaGUI::initConnect() {
 
 
 		});
+
+	QObject::connect(addBtn, &QPushButton::clicked, [&]() {
+		auto nume = nume_line->text();
+		auto culoare = culoare_line->text();
+		auto meows = meows_line->text();
+
+		string numeStr = nume.toStdString();
+		string culoareStr = culoare.toStdString();
+		string meowsStr = meows.toStdString();
+
+		int meowsInt = std::stoi(meowsStr);
+
+		service.add_pisica(numeStr, culoareStr, meowsInt);
+		QListWidgetItem* item = new QListWidgetItem(nume);
+		item->setData(Qt::UserRole, culoare);
+		cat_list->addItem(item);
+		});
+
+	QObject::connect(delBtn, &QPushButton::clicked, [&]() {
+		auto nume = nume_line->text().toStdString();
+		auto culoare = culoare_line->text().toStdString();
+
+		vector<Pisica> pisici = service.get_all_pisici();
+		int poz = service.find_pisica(nume, culoare);
+		Pisica cat = pisici[poz];
+
+		service.delete_pisica(nume, culoare, cat.getMeows());
+		QListWidgetItem* item = cat_list->takeItem(poz);
+		delete item;
+
+	});
+
+	QObject::connect(sortBtn, &QPushButton::clicked, [&]() {
+
+		this->cat_list->clear();
+		vector<Pisica> pisici = service.sort_by_meows();
+		for (auto& it : pisici) {
+			string nume = it.getNume();
+			string pisica = it.getCuloare();
+			QListWidgetItem* item = new QListWidgetItem(QString::fromStdString(nume));
+			item->setData(Qt::UserRole, QString::fromStdString(pisica));
+			cat_list->addItem(item);
+		}
+
+
+		});
+
+	QObject::connect(resetBtn, &QPushButton::clicked, [&]() {
+		addCats();
+		});
+	
 }
