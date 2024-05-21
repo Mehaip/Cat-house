@@ -36,3 +36,23 @@ void PisicaGUI::addCats() {
 	}
 
 }
+
+void PisicaGUI::initConnect() {
+	QObject::connect(cat_list, &QListWidget::itemSelectionChanged, [&]() {
+		auto sel = cat_list->selectedItems();
+		auto selItem = sel.at(0);
+		auto nume = selItem->text().toStdString();
+		auto culoare = selItem->data(Qt::UserRole).toString();
+		string culoareStr = culoare.toStdString();
+		int pozitie = service.find_pisica(nume, culoareStr);
+		vector<Pisica> pisici = service.get_all_pisici();
+		int meows = pisici[pozitie].getMeows();
+		nume_line->setText(QString::fromStdString(nume));
+		culoare_line->setText(culoare);
+		string meowsSt;
+		meowsSt = std::to_string(meows);
+		meows_line->setText(QString::fromStdString(meowsSt));
+
+
+		});
+}

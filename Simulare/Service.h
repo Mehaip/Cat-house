@@ -19,5 +19,7 @@ public:
 
 	void modify_pisica(string nume, string culoare, int meows,
 		string new_nume, string new_culoare, int new_meows);
+
+	int find_pisica(string nume, string culoare);
 };
 

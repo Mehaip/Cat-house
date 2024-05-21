@@ -20,3 +20,14 @@ void PisicaService::modify_pisica(string nume, string culoare, int meows,
 	Pisica cat{ nume, culoare, meows };
 	repo.modify_pisica(cat, new_nume, new_culoare, new_meows);
 }
+
+int PisicaService::find_pisica(string nume, string culoare) {
+	vector<Pisica> pisici = repo.get_all_pisici();
+	int position = 0;
+	for (auto& it : pisici) {
+		if (it.getNume() == nume && it.getCuloare() == culoare)
+			return position;
+		position++;
+	}
+	return -1;
+}

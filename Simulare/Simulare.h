@@ -23,11 +23,14 @@ private:
 
 	void initGUI();
 	void addCats();
+	void initConnect();
 
 public:
 
 	PisicaGUI(PisicaService& service) : service{ service } {
 		initGUI();
 		addCats();
+		initConnect();
+		
 	}
 };
